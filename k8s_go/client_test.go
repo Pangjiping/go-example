@@ -1,7 +1,7 @@
-package client_go
+package k8s_go
 
 import (
-	"github.com/docker/machine/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 

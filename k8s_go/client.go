@@ -1,4 +1,4 @@
-package client_go
+package k8s_go
 
 import (
 	"context"
