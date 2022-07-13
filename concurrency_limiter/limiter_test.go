@@ -39,3 +39,23 @@ func Test_Limiter(t *testing.T) {
 	time.Sleep(10 * time.Second)
 
 }
+
+func Test_ExecBufferedChan(t *testing.T) {
+	t.Log("buffered channel to limit goroutine")
+	ExecBufferedChan()
+}
+
+func Test_ExecWaitGroup(t *testing.T) {
+	t.Log("WaitGroup to limit goroutine")
+	ExecWaitGroup()
+}
+
+func Test_ExecChanWithSync(t *testing.T) {
+	t.Log("WaitGroup and Sync to limit goroutine")
+	ExecChanWithSync()
+}
+
+func Test_ExecUnbufferedChan(t *testing.T) {
+	t.Log("unbuffered channel to limit goroutine")
+	ExecUnbufferedChan()
+}
