@@ -30,7 +30,7 @@ func getChainInterceptor(ctx context.Context, interceptors []interceptor, ivk in
 	}
 }
 
-func use() {
+func Usage() {
 	var ctx context.Context
 	var ceps []interceptor
 	var h = func(ctx context.Context) {
