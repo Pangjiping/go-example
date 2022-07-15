@@ -3,6 +3,7 @@ package reflect
 import (
 	"fmt"
 	"reflect"
+	"unsafe"
 )
 
 // 将interface{}转为已知结构体
@@ -46,4 +47,20 @@ func map2Slice(m map[string]interface{}) []interface{} {
 		res = append(res, v)
 	}
 	return res
+}
+
+// String2Bytes convert string to bytes.
+func String2Bytes(s string) []byte {
+	sh := (*reflect.StringHeader)(unsafe.Pointer(&s))
+	bh := reflect.SliceHeader{
+		Data: sh.Data,
+		Len:  sh.Len,
+		Cap:  sh.Len,
+	}
+	return *(*[]byte)(unsafe.Pointer(&bh))
+}
+
+// Bytes2String convert bytes to string.
+func Bytes2String(b []byte) string {
+	return *(*string)(unsafe.Pointer(&b))
 }
