@@ -2,6 +2,7 @@ package reflect
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -31,4 +32,18 @@ func Test_Map2Slice(t *testing.T) {
 	}
 	slice := map2Slice(m)
 	fmt.Println(slice)
+}
+
+func Test_String2Bytes(t *testing.T) {
+	s := "hello"
+	bytes := String2Bytes(s)
+	fmt.Println(bytes)
+
+	res := Bytes2String(bytes)
+	assert.Equal(t, s, res)
+}
+
+func Test_PrintTag(t *testing.T) {
+	j := &J{"a", "b", "c", "d"}
+	printTag(j)
 }
