@@ -32,9 +32,10 @@ type EvictionSoft struct {
 func setEvictionConfig(m map[string]interface{}, config interface{}) {
 	slice := map2Slice(m)
 
-	val := reflect.ValueOf(config).Elem()
-	for i := 0; i < len(slice); i++ {
-		val.Field(i).SetInt(int64(slice[i].(int)))
+	rv := reflect.ValueOf(config)
+	elem := rv.Elem()
+	for i := 0; i < rv.NumField(); i++ {
+		elem.Field(i).SetInt(int64(slice[i].(int)))
 	}
 	fmt.Println(config)
 }
