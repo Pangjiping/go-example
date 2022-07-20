@@ -2,6 +2,7 @@ package concurrency_limiter
 
 import (
 	"github.com/stretchr/testify/assert"
+	"sync"
 	"testing"
 	"time"
 )
@@ -58,4 +59,45 @@ func Test_ExecChanWithSync(t *testing.T) {
 func Test_ExecUnbufferedChan(t *testing.T) {
 	t.Log("unbuffered channel to limit goroutine")
 	ExecUnbufferedChan()
+}
+
+func Test_ConcurrencyUT(t *testing.T) {
+	testcases := []map[string]interface{}{
+		{
+			"description": "attach instance concurrency testcase one",
+			"set":         []string{"i-aa", "i-bb", "i-cc", "i-dd", "i-ee", "i-ff"},
+		},
+		{
+			"description": "attach instance concurrency testcase two",
+			"set":         []string{"i-gg", "i-hh", "i-ii", "i-jj", "i-kk", "i-ll", "i-mm", "i-nn"},
+		},
+		{
+			"description": "attach instance concurrency testcase three",
+			"set":         []string{"i-oo", "i-pp", "i-qq", "i-rr", "i-ss", "i-tt", "i-uu", "i-vv"},
+		},
+		{
+			"description": "attach instance concurrency testcase four",
+			"set":         []string{"i-ww", "i-xx"},
+		},
+	}
+
+	errChan := make(chan error, len(testcases))
+	var wg sync.WaitGroup
+	// essClient := types.GetEssClient(env.GetUserInfo().GetAccessKey(), common.Region(env.RegionId))
+
+	for _, tc := range testcases {
+		t.Log(tc["description"])
+		wg.Add(1)
+		go func(instanceSet []string) {
+			defer wg.Done()
+			err := mockFunc(instanceSet)
+			if err != nil {
+				errChan <- err
+			}
+		}(tc["set"].([]string))
+	}
+
+	wg.Wait()
+	close(errChan)
+	assert.Equal(t, 0, len(errChan))
 }

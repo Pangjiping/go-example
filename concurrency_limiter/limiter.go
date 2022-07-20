@@ -1,6 +1,9 @@
 package concurrency_limiter
 
-import "sync"
+import (
+	"errors"
+	"sync"
+)
 
 // 并发执行，但是要限制并发数量
 type concurrencyLimiter struct {
@@ -69,4 +72,11 @@ func (c *concurrencyLimiter) Release() {
 		return
 	}
 	c.runningNum--
+}
+
+func mockFunc(s []string) error {
+	if len(s) > 4 {
+		return errors.New("something wrong")
+	}
+	return nil
 }
