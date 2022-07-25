@@ -82,8 +82,8 @@ func Test_ConcurrencyUT(t *testing.T) {
 	}
 
 	errChan := make(chan error, len(testcases))
+	// defer close(errChan)
 	var wg sync.WaitGroup
-	// essClient := types.GetEssClient(env.GetUserInfo().GetAccessKey(), common.Region(env.RegionId))
 
 	for _, tc := range testcases {
 		t.Log(tc["description"])
@@ -99,5 +99,9 @@ func Test_ConcurrencyUT(t *testing.T) {
 
 	wg.Wait()
 	close(errChan)
-	assert.Equal(t, 0, len(errChan))
+	if !assert.Equal(t, 0, len(errChan)) {
+		for err := range errChan {
+			t.Log(err.Error())
+		}
+	}
 }

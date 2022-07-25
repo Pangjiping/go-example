@@ -1,7 +1,6 @@
 package concurrency_limiter
 
 import (
-	"errors"
 	"sync"
 )
 
@@ -75,8 +74,8 @@ func (c *concurrencyLimiter) Release() {
 }
 
 func mockFunc(s []string) error {
-	if len(s) > 4 {
-		return errors.New("something wrong")
-	}
+	//if len(s) > 4 {
+	//	return errors.New("something wrong")
+	//}
 	return nil
 }
