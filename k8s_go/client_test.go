@@ -1,6 +1,7 @@
 package k8s_go
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -84,4 +85,13 @@ func Test_AllOpteration(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, podSize)
 	assert.Equal(t, true, podSize)
+}
+
+// failed
+func Test_getPodFromApiServerByUid(t *testing.T) {
+	pod, err := getPodFromApiServerByUid()
+	assert.Nil(t, err)
+	assert.NotNil(t, pod)
+
+	fmt.Printf("get pod uid: %v\n", pod.GetUID())
 }

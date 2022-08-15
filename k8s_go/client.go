@@ -5,6 +5,7 @@ import (
 	"flag"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
@@ -186,4 +187,22 @@ func getPodSizeFromApiServer() (int64, error) {
 		return 0, err
 	}
 	return *podList.RemainingItemCount + int64(len(podList.Items)), nil
+}
+
+// getPodFromApiServerByUid 匹配单个pod只能通过pod_name来做
+func getPodFromApiServerByUid() (*v1.Pod, error) {
+	k8sClient, err := getK8sClientByKubeConfig()
+	if err != nil {
+		return nil, err
+	}
+	podList, err := k8sClient.CoreV1().Pods("").List(context.Background(), metav1.ListOptions{
+		ResourceVersion:      "0",
+		ResourceVersionMatch: "NotOlderThan",
+		FieldSelector:        fields.OneTermEqualSelector("metadata.uid", "1a52ef95-50aa-41be-bfd1-3dc6b7f54568").String(),
+		Limit:                1,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &podList.Items[0], nil
 }
