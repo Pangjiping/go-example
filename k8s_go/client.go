@@ -206,3 +206,13 @@ func getPodFromApiServerByUid() (*v1.Pod, error) {
 	}
 	return &podList.Items[0], nil
 }
+
+func getOneNodesFromApiServer(name string) (*v1.Node, error) {
+	k8sClient, err := getK8sClientByKubeConfig()
+	if err != nil {
+		return nil, err
+	}
+	return k8sClient.CoreV1().Nodes().Get(context.TODO(), name, metav1.GetOptions{
+		ResourceVersion: "0",
+	})
+}

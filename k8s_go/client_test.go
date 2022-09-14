@@ -95,3 +95,11 @@ func Test_getPodFromApiServerByUid(t *testing.T) {
 
 	fmt.Printf("get pod uid: %v\n", pod.GetUID())
 }
+
+func Test_getOneNodesFromApiServer(t *testing.T) {
+	// not found
+	node, err := getOneNodesFromApiServer("test")
+	v, ok := node.Labels["dadasda"]
+	t.Logf("node info: %++v %++v", v == "", ok)
+	t.Logf("error:%++v", err)
+}
